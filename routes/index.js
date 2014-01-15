@@ -4,7 +4,7 @@ var request = require("request"),
 		var url = "http://transport.opendata.ch/v1/connections?",
 			today = new Date(),
 			date = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join("-"),
-			time = [today.getHours(), today.getMinutes()].join(":")
+			time = [today.getHours(), today.getMinutes()].join(":");
 			// build transport request 
 			url += [
 				"from=" + from,

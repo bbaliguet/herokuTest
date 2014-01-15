@@ -1,33 +1,37 @@
 {
-	"name": "herokuTest",
-	"version": "0.0.1",
-	"description": "Test heroku",
-	"main": "web.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node web.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bbaliguet/herokuTest"
-	},
-	"keywords": [
-		"test",
-		"heroku"
-	],
-	"author": "bbaliguet",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/bbaliguet/herokuTest/issues"
-	},
-	"homepage": "https://github.com/bbaliguet/herokuTest",
-	"dependencies": {
-		"express": "3.4.8",
-		"hjs": "*",
-		"less-middleware": "*",
-		"request": "*"
-	},
-	"engines": {
-		"node": "0.10.x"
-	}
+  "name": "herokuTest",
+  "version": "0.0.1",
+  "description": "Test heroku",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node web.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbaliguet/herokuTest"
+  },
+  "keywords": [
+    "test",
+    "heroku"
+  ],
+  "author": "bbaliguet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bbaliguet/herokuTest/issues"
+  },
+  "homepage": "https://github.com/bbaliguet/herokuTest",
+  "dependencies": {
+    "express": "3.4.8",
+    "hjs": "*",
+    "less-middleware": "*",
+    "request": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
 }
