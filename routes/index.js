@@ -13,7 +13,7 @@ var request = require("request"),
 				"date=" + date
 			].join("&");
 
-		return url
+		return url;
 	};
 
 /*
