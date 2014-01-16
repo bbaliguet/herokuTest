@@ -25,7 +25,8 @@
     "express": "3.4.8",
     "hjs": "*",
     "less-middleware": "*",
-    "request": "*"
+    "request": "*",
+    "q": "~1.0.0"
   },
   "engines": {
     "node": "0.10.x"
