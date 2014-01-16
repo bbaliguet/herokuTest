@@ -1,29 +1,30 @@
-var request = require("request"),
+var Q = require("q"),
+	qHttp = require("q-io/http");
 
-	getTransportUrl = function(from, to) {
-		var url = "http://transport.opendata.ch/v1/connections?",
-			today = new Date(),
-			date = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join("-"),
-			time = [today.getHours(), today.getMinutes()].join(":");
-			// build transport request 
-			url += [
-				"from=" + from,
-				"to=" + to,
-				"time=" + time,
-				"date=" + date
-			].join("&");
+getTransportUrl = function(from, to) {
+	var url = "http://transport.opendata.ch/v1/connections?",
+		today = new Date(),
+		date = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join("-"),
+		time = [today.getHours(), today.getMinutes()].join(":");
+	// build transport request 
+	url += [
+		"from=" + from,
+		"to=" + to,
+		"time=" + time,
+		"date=" + date
+	].join("&");
 
-		return url;
-	};
+	return url;
+};
 
 /*
  * GET home page.
  */
 exports.index = function(req, res) {
-	request(getTransportUrl("Lausanne", "Morges"), function(error, response, body) {
+	qHttp.read(getTransportUrl("Lausanne", "Morges")).then(function(body) {
 		var transports = JSON.parse(body);
 		res.render('index', {
-			title : "test", 
+			title: "test",
 			nbConnections: transports.connections.length
 		});
 	});
