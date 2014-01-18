@@ -3,10 +3,22 @@
   <head>
     <title>{{ title }}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src='/javascripts/home.js'></script>
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-    <p>Nb connections : {{nbConnections}}</p>
+    <h1></h1>
+    {{#transports}}
+    	<div class="transport">
+    		<h3>To {{destination}}</h3>
+    		{{#noConnection}}
+    			<div>No connection: {{noConnection}}</div>
+    		{{/noConnection}}
+    		{{^noConnection}}
+    			<div>In: {{delay}} minutes</div>
+    			<div>Platform: {{platform}}</div>
+    			<div>Departure: {{time}}</div>
+    		{{/noConnection}}
+    	</div>
+    {{/transports}}
   </body>
 </html>
