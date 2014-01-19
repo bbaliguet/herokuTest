@@ -18,24 +18,23 @@ var Q = require("q"),
 	},
 
 	getConnection = function(connection) {
-		try {
-			var now = new Date(),
-				departure = connection.from.departure,
-				departureDate = new Date(departure),
-				delay = Math.floor((departureDate.getTime() - now.getTime()) / 1000 / 60);
-			if (delay < 1) {
-				return;
-			}
-			var minutes = departureDate.getMinutes(),
-				departureTime = departureDate.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
-			return {
-				platform: connection.from.platform,
-				delay: delay,
-				time: departureTime
-			};
-		} catch (e) {
+		var now = new Date(),
+			departure = connection.from.departure,
+			parsedDep = /(\d+)-(\d+)-(\d+)T(\d+)\:(\d+)\:(\d+)/.exec(departure);
+		parsedDep.shift();
+		parsedDep.map(parseFloat);
+		var departureDate = new Date(parsedDep[0], parsedDep[1] - 1, parsedDep[2], parsedDep[3], parsedDep[4], parsedDep[5]),
+			delay = Math.floor((departureDate.getTime() - now.getTime()) / 1000 / 60);
+		if (delay < 1) {
 			return;
 		}
+		var minutes = departureDate.getMinutes(),
+			departureTime = departureDate.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
+		return {
+			platform: connection.from.platform,
+			delay: delay,
+			time: departureTime
+		};
 	},
 
 	getConnections = function(transport) {
@@ -75,8 +74,8 @@ exports.index = function(req, res) {
 			debug: JSON.stringify({
 				origin: ways,
 				results: transports,
-				now : new Date(),
-				unixTime : (new Date()).getTime()
+				now: new Date(),
+				unixTime: (new Date()).getTime()
 			})
 		});
 	});
