@@ -74,8 +74,7 @@ exports.index = function(req, res) {
 			debug: JSON.stringify({
 				origin: ways,
 				results: transports,
-				now: new Date(),
-				unixTime: (new Date()).getTime()
+				now: new Date()
 			})
 		});
 	});
