@@ -20,38 +20,37 @@ var Q = require("q"),
 	getConnection = function(connection) {
 		try {
 			var now = new Date(),
-				departure = connection.sections[0].departure,
-				departureDate = new Date(departure.departure),
+				departure = connection.from.departure,
+				departureDate = new Date(departure),
 				delay = Math.floor((departureDate.getTime() - now.getTime()) / 1000 / 60);
 			if (delay < 1) {
-				return false;
+				return;
 			}
 			var minutes = departureDate.getMinutes(),
 				departureTime = departureDate.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
 			return {
-				platform: departure.platform,
+				platform: connection.from.platform,
 				delay: delay,
 				time: departureTime
 			};
 		} catch (e) {
-			return {
-				noConnection: e
-			}
+			return;
 		}
 	},
 
-	getNextTransport = function(transport) {
-		var i = 0,
-			connection = getConnection(transport.connections[i]);
-		while (connection.noConnection) {
-			i++;
-			if (!transport.connections[i]) {
-				return false;
+	getConnections = function(transport) {
+		var validConnections = [],
+			connections = transport.connections;
+		for (var i = 0, l = connections.length; i < l; i++) {
+			var connection = getConnection(connections[i]);
+			if (connection) {
+				validConnections.push(connection);
 			}
-			connection = getConnection(transport.connections[i]);
 		}
-		connection.destination = transport.to.name;
-		return connection;
+		return {
+			destination: transport.to.name,
+			connections: validConnections
+		};
 	};
 
 /*
@@ -65,10 +64,12 @@ exports.index = function(req, res) {
 			return JSON.parse(body);
 		})
 	]).then(function(ways) {
-		var transports = [
-			getNextTransport(ways[0]),
-			getNextTransport(ways[1])
-		];
+		var transports = null;
+		try {
+			transports = [getConnections(ways[0]), getConnections(ways[1])];
+		} catch (e) {
+			transports = "" + e;
+		}
 		res.render('index', {
 			transports: transports,
 			debug: JSON.stringify({

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ title }}</title>
+    <title>Transports</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript" src='/javascripts/home.js'></script>
   </head>
@@ -13,11 +14,12 @@
     		{{#noConnection}}
     			<div>No connection: {{noConnection}}</div>
     		{{/noConnection}}
-    		{{^noConnection}}
-    			<div>In: {{delay}} minutes</div>
-    			<div>Platform: {{platform}}</div>
-    			<div>Departure: {{time}}</div>
-    		{{/noConnection}}
+    		{{#connections}}
+    			<div class="connection">
+    				<div>In: {{delay}} minutes</div>
+    				<div>Platform: {{platform}}</div>
+    			</div>
+    		{{/connections}}
     	</div>
     {{/transports}}
     <script type="text/javascript">console.log({{{debug}}})</script>

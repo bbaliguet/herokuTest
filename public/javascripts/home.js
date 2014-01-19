@@ -6,7 +6,7 @@
 			var now = new Date(),
 				unixTime = now.getTime();
 			if (!ref || unixTime - ref > 10000) {
-				ref = unixTime
+				ref = unixTime;
 			} else {
 				return;
 			}
