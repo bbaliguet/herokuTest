@@ -35,7 +35,7 @@ var Q = require("q"),
 			};
 		} catch (e) {
 			return {
-				noConnection : e
+				noConnection: e
 			}
 		}
 	},
@@ -66,11 +66,15 @@ exports.index = function(req, res) {
 		})
 	]).then(function(ways) {
 		var transports = [
-				getNextTransport(ways[0]),
-				getNextTransport(ways[1])
-			];
+			getNextTransport(ways[0]),
+			getNextTransport(ways[1])
+		];
 		res.render('index', {
-			transports: transports
+			transports: transports,
+			debug: JSON.stringify({
+				origin: ways,
+				results: transports
+			})
 		});
 	});
 };

@@ -20,5 +20,6 @@
     		{{/noConnection}}
     	</div>
     {{/transports}}
+    <script type="text/javascript">console.log({{debug}})</script>
   </body>
 </html>
