@@ -2,16 +2,16 @@ var Q = require("q"),
 	qHttp = require("q-io/http"),
 
 	getTransportUrl = function(from, to) {
-		var url = "http://transport.opendata.ch/v1/connections?",
-			today = new Date(),
-			date = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join("-"),
-			time = [today.getHours(), today.getMinutes()].join(":");
+		var url = "http://transport.opendata.ch/v1/connections?";
+		//	today = new Date(),
+		//	date = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join("-"),
+		//	time = [today.getHours(), today.getMinutes()].join(":");
 		// build transport request 
 		url += [
 			"from=" + from,
-			"to=" + to,
-			"time=" + time,
-			"date=" + date
+			"to=" + to
+			//	"time=" + time,
+			//	"date=" + date
 		].join("&");
 
 		return url;
@@ -20,10 +20,7 @@ var Q = require("q"),
 	getConnection = function(connection) {
 		var now = new Date(),
 			departure = connection.from.departure,
-			parsedDep = /(\d+)-(\d+)-(\d+)T(\d+)\:(\d+)\:(\d+)/.exec(departure);
-		parsedDep.shift();
-		parsedDep.map(parseFloat);
-		var departureDate = new Date(parsedDep[0], parsedDep[1] - 1, parsedDep[2], parsedDep[3], parsedDep[4], parsedDep[5]),
+			departureDate = new Date(departure),
 			delay = Math.floor((departureDate.getTime() - now.getTime()) / 1000 / 60);
 		if (delay < 1) {
 			return;
@@ -32,6 +29,7 @@ var Q = require("q"),
 			departureTime = departureDate.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
 		return {
 			platform: connection.from.platform,
+			transport: connection.products[0],
 			delay: delay,
 			time: departureTime
 		};
@@ -56,6 +54,7 @@ var Q = require("q"),
  * GET home page.
  */
 exports.index = function(req, res) {
+	var start = (new Date()).getTime();
 	Q.all([
 		qHttp.read(getTransportUrl("Morges", "Lausanne")).then(function(body) {
 			return JSON.parse(body);
@@ -63,7 +62,8 @@ exports.index = function(req, res) {
 			return JSON.parse(body);
 		})
 	]).then(function(ways) {
-		var transports = null;
+		var transports = null,
+			responseTime = (new Date()).getTime() - start;
 		try {
 			transports = [getConnections(ways[0]), getConnections(ways[1])];
 		} catch (e) {
@@ -74,7 +74,8 @@ exports.index = function(req, res) {
 			debug: JSON.stringify({
 				origin: ways,
 				results: transports,
-				now: new Date()
+				now: new Date(),
+				responseTime: responseTime
 			})
 		});
 	});

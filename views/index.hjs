@@ -18,6 +18,7 @@
     			<div class="connection">
     				<div>In: {{delay}} minutes</div>
     				<div>Platform: {{platform}}</div>
+    				<div>Transport: {{transport}}</div>
     			</div>
     		{{/connections}}
     	</div>
