@@ -9,6 +9,7 @@
   </head>
   <body>
     <h1></h1>
+    <h2>{{weather.weather}}, {{weather.tempMin}} - {{weather.tempMax}}</h2>
     {{#transports}}
     	<div class="transport">
     		<h3>To {{destination}}</h3>
@@ -19,7 +20,6 @@
     			<div class="connection">
     				<div>In: {{delay}} minutes</div>
     				<div>Platform: {{platform}}</div>
-    				<div>Transport: {{transport}}</div>
     			</div>
     		{{/connections}}
     	</div>

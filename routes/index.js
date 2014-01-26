@@ -1,6 +1,8 @@
 var Q = require("q"),
 	qHttp = require("q-io/http"),
 
+	weatherLink = "http://api.openweathermap.org/data/2.5/weather?q=Lausanne,ch&units=metric",
+
 	getTransportUrl = function(from, to) {
 		var url = "http://transport.opendata.ch/v1/connections?";
 		//	today = new Date(),
@@ -48,6 +50,14 @@ var Q = require("q"),
 			destination: transport.to.name,
 			connections: validConnections
 		};
+	},
+
+	getWeather = function(weather) {
+		return {
+			weather: weather.weather[0].main,
+			tempMin: Math.round(weather.main.temp_min),
+			tempMax: Math.round(weather.main.temp_max)
+		};
 	};
 
 /*
@@ -60,21 +70,23 @@ exports.index = function(req, res) {
 			return JSON.parse(body);
 		}), qHttp.read(getTransportUrl("Lausanne", "Morges")).then(function(body) {
 			return JSON.parse(body);
+		}), qHttp.read(weatherLink).then(function(body) {
+			return JSON.parse(body);
 		})
-	]).then(function(ways) {
+
+	]).then(function(details) {
 		var transports = null,
 			responseTime = (new Date()).getTime() - start;
 		try {
-			transports = [getConnections(ways[0]), getConnections(ways[1])];
+			transports = [getConnections(details[0]), getConnections(details[1])];
 		} catch (e) {
 			transports = "" + e;
 		}
 		res.render('index', {
 			transports: transports,
+			weather: getWeather(details[2]),
 			debug: JSON.stringify({
-				origin: ways,
 				results: transports,
-				now: new Date(),
 				responseTime: responseTime
 			})
 		});
