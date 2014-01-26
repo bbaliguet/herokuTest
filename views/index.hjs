@@ -18,8 +18,7 @@
     		{{/noConnection}}
     		{{#connections}}
     			<div class="connection">
-    				<div>In: {{delay}} minutes</div>
-    				<div>Platform: {{platform}}</div>
+                    {{delay}} minutes, platform {{platform}}
     			</div>
     		{{/connections}}
     	</div>
