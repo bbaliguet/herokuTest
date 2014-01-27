@@ -77,21 +77,22 @@ exports.index = function(req, res) {
 		})
 
 	]).then(function(details) {
-		var transports = null,
-			weather = null,
+		var transports = {},
+			weather = {},
+			error = null,
 			responseTime = (new Date()).getTime() - start;
 		try {
 			transports = [getConnections(details[0]), getConnections(details[1])];
 			weather = getWeather(details[2]);
 		} catch (e) {
-			transports = "" + e;
+			error = e;
 		}
 		res.render('index', {
 			transports: transports,
 			weather: weather,
 			debug: JSON.stringify({
-				results: transports,
-				responseTime: responseTime
+				responseTime: responseTime,
+				error: error
 			})
 		});
 	});
