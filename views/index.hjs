@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1></h1>
-    <h2>{{weather.weather}}, {{weather.tempMin}} - {{weather.tempMax}}</h2>
+    <h2>{{weather.weather}}, {{weather.tempMin}}&deg; to {{weather.tempMax}}&deg;</h2>
     {{#transports}}
     	<div class="transport">
     		<h3>To {{destination}}</h3>
@@ -18,11 +18,17 @@
     		{{/noConnection}}
     		{{#connections}}
     			<div class="connection">
-                    {{delay}} minutes, platform {{platform}}
+                    Plat. {{platform}} &#8594; {{delay}} minutes
     			</div>
     		{{/connections}}
     	</div>
     {{/transports}}
-    <script type="text/javascript">console.log({{{debug}}})</script>
+    <script type="text/javascript">
+        var weather = {
+            sunset: {{weather.sunset}},
+            sunrise: {{weather.sunrise}}
+        };
+        console.log({{{debug}}});
+    </script>
   </body>
 </html>

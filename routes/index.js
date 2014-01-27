@@ -56,7 +56,9 @@ var Q = require("q"),
 		return {
 			weather: weather.weather[0].main,
 			tempMin: Math.round(weather.main.temp_min),
-			tempMax: Math.round(weather.main.temp_max)
+			tempMax: Math.round(weather.main.temp_max),
+			sunrise: weather.sys.sunrise,
+			sunset: weather.sys.sunset
 		};
 	};
 
@@ -76,15 +78,17 @@ exports.index = function(req, res) {
 
 	]).then(function(details) {
 		var transports = null,
+			weather = null,
 			responseTime = (new Date()).getTime() - start;
 		try {
 			transports = [getConnections(details[0]), getConnections(details[1])];
+			weather = getWeather(details[2]);
 		} catch (e) {
 			transports = "" + e;
 		}
 		res.render('index', {
 			transports: transports,
-			weather: getWeather(details[2]),
+			weather: weather,
 			debug: JSON.stringify({
 				results: transports,
 				responseTime: responseTime

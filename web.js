@@ -16,7 +16,10 @@ app.set('view engine', 'hjs');
 
 // middlewares : see http://www.senchalabs.org/connect/
 // app.use(express.favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-app.use(express.logger('dev'));
+app.use(express.logger({
+	immediate: true,
+	format: 'dev'
+}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
