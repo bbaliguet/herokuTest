@@ -57,8 +57,8 @@ var Q = require("q"),
 			weather: weather.weather[0].main,
 			tempMin: Math.round(weather.main.temp_min),
 			tempMax: Math.round(weather.main.temp_max),
-			sunrise: weather.sys.sunrise,
-			sunset: weather.sys.sunset
+			sunrise: weather.sys.sunrise * 1000,
+			sunset: weather.sys.sunset * 1000
 		};
 	};
 

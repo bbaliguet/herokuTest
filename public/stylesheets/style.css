@@ -1,4 +1,8 @@
 /* colors from http://flatuicolors.com/ */
+html {
+  margin: 0;
+  padding: 0;
+}
 body {
   padding: 50px;
   font: 16px "Open Sans", "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -6,6 +10,7 @@ body {
   background: #e74d3c;
   color: #EEE;
   transition: background 1s;
+  margin: 0;
 }
 h1 {
   font-weight: 300;
