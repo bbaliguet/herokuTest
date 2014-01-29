@@ -60,40 +60,47 @@ var Q = require("q"),
 			sunrise: weather.sys.sunrise * 1000,
 			sunset: weather.sys.sunset * 1000
 		};
+	},
+
+	getProcessed = function(callback) {
+		var start = (new Date()).getTime();
+		Q.all([
+			qHttp.read(getTransportUrl("Morges", "Lausanne")).then(function(body) {
+				return JSON.parse(body);
+			}), qHttp.read(getTransportUrl("Lausanne", "Morges")).then(function(body) {
+				return JSON.parse(body);
+			}), qHttp.read(weatherLink).then(function(body) {
+				return JSON.parse(body);
+			})
+
+		]).then(function(details) {
+			var transports = {},
+				weather = {},
+				error = null,
+				responseTime = (new Date()).getTime() - start;
+			try {
+				transports = [getConnections(details[0]), getConnections(details[1])];
+				weather = getWeather(details[2]);
+			} catch (e) {
+				error = e;
+			}
+			callback({
+				transports: transports,
+				weather: weather,
+				debug: JSON.stringify({
+					responseTime: responseTime,
+					error: error
+				})
+			});
+
+		});
 	};
 
 /*
  * GET home page.
  */
 exports.index = function(req, res) {
-	var start = (new Date()).getTime();
-	Q.all([
-		qHttp.read(getTransportUrl("Morges", "Lausanne")).then(function(body) {
-			return JSON.parse(body);
-		}), qHttp.read(getTransportUrl("Lausanne", "Morges")).then(function(body) {
-			return JSON.parse(body);
-		}), qHttp.read(weatherLink).then(function(body) {
-			return JSON.parse(body);
-		})
-
-	]).then(function(details) {
-		var transports = {},
-			weather = {},
-			error = null,
-			responseTime = (new Date()).getTime() - start;
-		try {
-			transports = [getConnections(details[0]), getConnections(details[1])];
-			weather = getWeather(details[2]);
-		} catch (e) {
-			error = e;
-		}
-		res.render('index', {
-			transports: transports,
-			weather: weather,
-			debug: JSON.stringify({
-				responseTime: responseTime,
-				error: error
-			})
-		});
+	getProcessed(function(processed) {
+		res.render('index', processed);
 	});
 };
