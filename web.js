@@ -28,9 +28,7 @@ app.use(express.session());
 
 // see http://stackoverflow.com/questions/12695591/node-js-express-js-how-does-app-router-work
 app.use(app.router);
-app.use(require('less-middleware')({
-	src: path.join(__dirname, 'public')
-}));
+app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
