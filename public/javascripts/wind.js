@@ -28,7 +28,7 @@
     var mesured = [],
         mesuredIndex;
     provi_6[0].forEach(function(element, index) {
-        mesuredIndex = Math.floor(index / 4);
+        mesuredIndex = Math.floor(index / 3);
         var mes = mesured[mesuredIndex];
         if (!mes) {
             mes = [];
