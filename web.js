@@ -1,43 +1,21 @@
-/**
- * Module dependencies.
- */
-
-var express = require('express'),
-	routes = require('./routes'),
-	http = require('http'),
-	path = require('path'),
-
-	app = express();
+const express = require('express');
+const path = require('path');
+const home = require('./routes/home');
+const wind = require('./routes/wind');
+const app = express();
 
 // all environments
-app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
-// middlewares : see http://www.senchalabs.org/connect/
-// app.use(express.favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-app.use(express.logger({
-	immediate: true,
-	format: 'dev'
-}));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+// middlewares
+app.use(express.static('public'));
 
-// see http://stackoverflow.com/questions/12695591/node-js-express-js-how-does-app-router-work
-app.use(app.router);
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', home.index);
+app.get('/wind', wind.wind);
+app.get('/proxy/:qs', wind.proxy);
 
-// development only
-if ('development' == app.get('env')) {
-	app.use(express.errorHandler());
-}
-
-app.get('/', routes.index);
-
-http.createServer(app).listen(app.get('port'), function() {
-	console.log('Express server listening on port ' + app.get('port'));
+const port = process.env.PORT || 8084;
+app.listen(port, () => {
+    console.log('Express server listening on port ' + port);
 });

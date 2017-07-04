@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Test",
+            "runtimeExecutable": "/usr/local/bin/node",
+            "program": "${workspaceRoot}/test.js",
+            "protocol": "inspector"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Server",
+            "runtimeExecutable": "/usr/local/bin/node",
+            "program": "${workspaceRoot}/web.js",
+            "protocol": "inspector"
+        }
+    ]
+}

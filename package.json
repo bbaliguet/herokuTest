@@ -1,39 +1,19 @@
 {
-  "name": "herokuTest",
-  "version": "0.0.1",
-  "description": "Test heroku",
-  "main": "web.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node web.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bbaliguet/herokuTest"
-  },
-  "keywords": [
-    "test",
-    "heroku"
-  ],
-  "author": "bbaliguet",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bbaliguet/herokuTest/issues"
-  },
-  "homepage": "https://github.com/bbaliguet/herokuTest",
-  "dependencies": {
-    "express": "3.4.8",
-    "hjs": "*",
-    "less-middleware": "*",
-    "q": "~1.0.0",
-    "q-io": "~1.10.6"
-  },
-  "engines": {
-    "node": "0.10.x"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.3.0"
-  }
+    "name": "homepage",
+    "version": "0.0.1",
+    "description": "Homepage",
+    "main": "web.js",
+    "scripts": {
+        "start": "node web.js"
+    },
+    "author": "bbaliguet",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^3.21.2",
+        "hjs": "0.0.6",
+        "q": "^1.5.0",
+        "q-io": "^1.13.4",
+        "request": "^2.81.0",
+        "zlib": "^1.0.5"
+    }
 }
