@@ -24,6 +24,9 @@
         if (angle > 292.5 && angle <= 337.5) return 'NW';
         return 'N';
     };
+    var getHTMLTrad = function(angle) {
+        return trad[getDirection(angle)] + '&#xFE0E;';
+    };
     // prepare provi_6
     var mesured = [],
         mesuredIndex;
@@ -34,9 +37,7 @@
             mes = [];
             mesured[mesuredIndex] = mes;
         }
-        mes.push(
-            element + unit + ' - ' + trad[getDirection(provi_6[1][index])]
-        );
+        mes.push(element + unit + ' - ' + getHTMLTrad(provi_6[1][index]));
     });
     provi_24[2].forEach(function(element, index) {
         var line = document.createElement('tr');
@@ -50,7 +51,7 @@
             '<span class="unit">' +
             unit +
             '</span> - ' +
-            trad[getDirection(angle)] +
+            getHTMLTrad(angle) +
             '<span class="angle">(' +
             angle +
             ')</span></td><td>' +
