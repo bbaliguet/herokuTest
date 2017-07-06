@@ -2,7 +2,7 @@ const request = require('request');
 const options = {
     method: 'POST',
     rejectUnauthorized: false,
-    url: 'https://windspots.com/index.php',
+    url: 'https://DOMAIN/index.php',
     headers: {
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     },

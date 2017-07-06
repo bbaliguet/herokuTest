@@ -1,11 +1,12 @@
 const request = require('request');
+const SOURCE_DOMAIN = process.env.SOURCE_DOMAIN;
 
 function proxyWind() {
     return new Promise((resolve, reject) => {
         const options = {
             method: 'POST',
             rejectUnauthorized: false,
-            url: 'https://windspots.com/index.php',
+            url: `https://${SOURCE_DOMAIN}/index.php`,
             headers: {
                 'content-type':
                     'application/x-www-form-urlencoded; charset=UTF-8'
@@ -25,7 +26,7 @@ exports.wind = function(req, res) {
     proxyWind().then(function(wind) {
         // proxy image
         wind.image = wind.image.replace(
-            'https://www.windspots.com/image.php?',
+            `https://www.${SOURCE_DOMAIN}/image.php?`,
             '/proxy/'
         );
         res.render('wind', {
@@ -37,10 +38,10 @@ exports.wind = function(req, res) {
 
 exports.proxy = function(req, res) {
     request({
-        url: 'https://www.windspots.com/image.php?' + req.params.qs,
+        url: `https://www.${SOURCE_DOMAIN}/image.php?${req.params.qs}`,
         rejectUnauthorized: false,
         headers: {
-            Referer: 'https://www.windspots.com/'
+            Referer: `https://www.${SOURCE_DOMAIN}/`
         }
     })
         .on('error', function(err) {
